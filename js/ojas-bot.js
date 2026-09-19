@@ -7,7 +7,7 @@
   var replies = [
     {
       keys: ["preco", "preço", "valor", "plano", "planos", "custa", "investimento"],
-      text: "São três planos: Vitrine por R$ 490 (site completo, 1 ano de domínio e 30 dias de ajustes). Vitrine + Ôjas Bot por R$ 890 + R$ 108/mês, com atendimento 24/7, coleta de dados e envio por e-mail e WhatsApp. O terceiro soma integração e automação de processos: R$ 1.490 + R$ 290/mês."
+      text: "São três planos: Vitrine por R$ 1.490 (site completo, 1 ano de domínio e 30 dias de ajustes). Vitrine + Ôjas Bot por R$ 2.490 + R$ 149/mês, com atendimento 24/7, coleta de dados e envio por e-mail e WhatsApp. O terceiro soma integração e automação de processos: R$ 4.490 + R$ 297/mês."
     },
     {
       keys: ["vitrine", "site"],
@@ -46,7 +46,7 @@
         if (n.indexOf(replies[i].keys[k]) !== -1) return replies[i].text;
       }
     }
-    return "Consigo orientar sobre Vitrine (R$ 490), Vitrine + Ôjas Bot (R$ 890 + R$ 108/mês) e o plano com automação n8n (R$ 1.490 + R$ 290/mês). Se preferir, fale com a equipe no WhatsApp.";
+    return "Consigo orientar sobre Vitrine (R$ 1.490), Vitrine + Ôjas Bot (R$ 2.490 + R$ 149/mês) e o plano com automação n8n (R$ 4.490 + R$ 297/mês). Se preferir, fale com a equipe no WhatsApp.";
   }
 
   add("Olá. Sou o Ôjas Bot. Pergunte sobre planos, prazos, o site ou a automação — respondo aqui mesmo.", "bot");
