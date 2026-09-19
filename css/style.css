@@ -437,4 +437,3 @@ section { padding: 92px 0; }
   .work--flip { grid-template-columns: 1fr; }
   .work--flip .work__copy { order: 0; }
 }
-.nav__links a[aria-current="page"] { color: var(--cream); }
