@@ -51,6 +51,22 @@
 
   add("Olá. Sou o Ôjas Bot. Pergunte sobre planos, prazos, o site ou a automação — respondo aqui mesmo.", "bot");
 
+  var panel = document.getElementById("botPanel");
+  function openBot() {
+    if (!panel) return;
+    panel.hidden = false;
+  }
+  function closeBot() {
+    if (!panel) return;
+    panel.hidden = true;
+  }
+  document.querySelectorAll("[data-open-bot]").forEach(function (el) {
+    el.addEventListener("click", openBot);
+  });
+  document.querySelectorAll("[data-close-bot]").forEach(function (el) {
+    el.addEventListener("click", closeBot);
+  });
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var q = (input.value || "").trim();
