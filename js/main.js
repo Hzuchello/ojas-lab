@@ -8,7 +8,6 @@
     onScroll();
   }
 
-  // Cole a URL do webhook do n8n (produção) aqui.
   var N8N_WEBHOOK = "https://n8n.ojaslab.com.br/webhook/lead-plano";
 
   var leadModal = document.getElementById("leadModal");
@@ -25,18 +24,18 @@
   function closeModal(el) {
     if (!el) return;
     el.hidden = true;
-    if (leadModal.hidden && thanksModal.hidden) {
+    if ((!leadModal || leadModal.hidden) && (!thanksModal || thanksModal.hidden)) {
       document.body.style.overflow = "";
     }
   }
 
   document.querySelectorAll(".plano__btn[data-plano]").forEach(function (btn) {
     btn.addEventListener("click", function () {
+      if (!form || !planoInput) return;
       var plano = btn.getAttribute("data-plano") || "";
-      planoInput.value = plano;
-      planoLabel.textContent = plano;
       form.reset();
       planoInput.value = plano;
+      if (planoLabel) planoLabel.textContent = plano;
       openModal(leadModal);
     });
   });
@@ -55,7 +54,7 @@
         nome: (form.nome.value || "").trim(),
         telefone: (form.telefone.value || "").trim(),
         email: (form.email.value || "").trim(),
-        plano: planoInput.value,
+        plano: planoInput ? planoInput.value : "",
         origem: "site-ojas-lab",
         data: new Date().toISOString()
       };
