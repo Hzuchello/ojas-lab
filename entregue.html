@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Já entregues — Ôjas Lab</title>
+<title>Ôjas Lab</title>
 <meta name="description" content="Trabalhos entregues pela Ôjas Lab: Livraria Ātma Vidyā e consultório Dr. Alexandre Donnini.">
 <link rel="icon" href="logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,10 +24,9 @@
     <a href="index.html#servicos">Serviços</a>
     <a href="index.html#planos">Planos</a>
     <a href="index.html#metodo">Método</a>
-    <a href="index.html#bot">Ôjas Bot</a>
     <a href="entregue.html">Já entregue</a>
   </nav>
-  <a class="btn btn--ghost" href="https://wa.me/554191283609" target="_blank" rel="noopener">Contato</a>
+  <a class="btn btn--ghost" href="#contato">Contato</a>
 </header>
 
 <main>
@@ -35,64 +34,45 @@
   <section class="page-hero">
     <p class="eyebrow">Portfólio</p>
     <h1>Trabalhos que já saíram do laboratório.</h1>
-    <p class="lede">
-      Cada entrega é uma vitrine com operação por trás — site, atendimento e, quando o caso pede, automação.
-      Dois recortes reais, no mesmo critério que usamos para o seu.
-    </p>
   </section>
 
   <section class="works wrap">
 
     <article class="work glass" id="livraria">
       <div class="work__stage">
-        <p class="work__mono">01 — Cultura</p>
-        <h3>Livraria Ātma Vidyā</h3>
+        <img src="site_atmavidyabooks.png" alt="Site da Livraria Ātma Vidyā" class="work__shot">
+        <div class="work__caption">
+          <h3>Ātma Vidyā Books</h3>
+        </div>
       </div>
       <div class="work__copy">
-        <p class="eyebrow">Vitrine</p>
-        <h2>Catálogo com presença de livraria, não de template.</h2>
-        <p>
-          Site para livraria digital de filosofia e yoga. A página apresenta o acervo,
-          a linha editorial e o tom da casa — leitura calma, hierarquia clara, caminho curto até o contato.
-        </p>
-        <ul class="work__tags">
-          <li>Site</li>
-          <li>Identidade</li>
-          <li>Catálogo</li>
-        </ul>
-        <a class="btn btn--ghost" href="index.html#planos">Ver planos</a>
+        <p class="eyebrow">Vitrine + Ôjas Bot</p>
+        <h2>Catálogo com presença de livraria.</h2>
+        <a class="btn btn--ghost" href="https://atmavidya.ojaslab.com.br/" target="_blank" rel="noopener">Visite</a>
       </div>
     </article>
 
     <article class="work work--flip glass" id="donnini">
       <div class="work__stage">
-        <p class="work__mono">02 — Saúde</p>
-        <h3>Dr. Alexandre Donnini</h3>
+        <img src="site_alexandredonini.png" alt="Site de Alexandre Donnini" class="work__shot">
+        <div class="work__caption">
+          <h3>Alexandre Donnini</h3>
+        </div>
       </div>
       <div class="work__copy">
         <p class="eyebrow">Vitrine + Ôjas Bot</p>
-        <h2>Consultório no ar, com triagem que não dorme.</h2>
-        <p>
-          Site e agendamento automatizado para consultório de psicologia.
-          O bot faz a primeira escuta, organiza a demanda e encaminha o horário —
-          sem a agenda depender de alguém atrás do WhatsApp.
-        </p>
-        <ul class="work__tags">
-          <li>Site</li>
-          <li>Ôjas Bot</li>
-          <li>Agendamento</li>
-        </ul>
-        <a class="btn btn--ghost" href="index.html#bot">Ver o Ôjas Bot</a>
+        <h2>Perfil profissional.</h2>
+        <a class="btn btn--ghost" href="https://alexandre-donini.vercel.app/" target="_blank" rel="noopener">Visite</a>
       </div>
     </article>
 
   </section>
 
-  <section class="close">
+  <section class="close" id="contato">
     <div class="wrap close__inner glass">
       <h2>O próximo da lista pode ser o seu.</h2>
-      <p>Conta o recorte. A gente mostra como ficaria na mesma vitrine.</p>
-      <a class="btn btn--gold" href="https://wa.me/554191283609" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <p>Desenhamos um modelo ideal para o seu negócio.</p>
+      <a class="btn btn--gold" href="https://wa.me/554191283609" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </section>
 
@@ -104,10 +84,30 @@
       <img src="logo-nav.png" alt="Ôjas Lab">
     </a>
     <span>© 2026</span>
-    <span>Automação e consultoria com IA.</span>
+    <span>Ôjas Lab — Automação, sites e atendimento com IA.</span>
   </p>
 </footer>
 
+<div class="bot-widget">
+  <div class="bot-panel glass" id="botPanel" hidden>
+    <div class="console__bar">
+      <img src="logo-nav.png" alt="" class="console__mark">
+      <strong>Ôjas Bot</strong>
+      <button type="button" class="bot-close" data-close-bot aria-label="Fechar">×</button>
+    </div>
+    <div class="console__thread" id="thread"></div>
+    <form class="console__form" id="ask" autocomplete="off">
+      <label class="sr-only" for="q">Sua pergunta</label>
+      <input id="q" name="q" type="text" placeholder="Escreva sua dúvida…" required>
+      <button class="btn btn--gold" type="submit">Enviar</button>
+    </form>
+  </div>
+  <button type="button" class="bot-fab" data-open-bot aria-label="Abrir Ôjas Bot">
+    <img src="logo-nav.png" alt="Ôjas Bot">
+  </button>
+</div>
+
+<script src="js/ojas-bot.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
