@@ -242,6 +242,7 @@ section { padding: 92px 0; }
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  padding: 0;
 }
 .bot-panel[hidden] { display: none; }
 .bot-panel .console__bar {
