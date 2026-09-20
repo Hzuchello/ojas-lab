@@ -9,10 +9,18 @@
   var historico = [];
   var ocupado = false;
 
+  function limpaMd(s) {
+    return String(s || "")
+      .replace(/\*\*/g, "")
+      .replace(/__/g, "")
+      .replace(/`+/g, "")
+      .replace(/^#+\s+/gm, "");
+  }
+
   function add(text, who) {
     var el = document.createElement("div");
     el.className = "msg msg--" + who;
-    el.textContent = text;
+    el.textContent = who === "bot" ? limpaMd(text) : text;
     thread.appendChild(el);
     thread.scrollTop = thread.scrollHeight;
     return el;
