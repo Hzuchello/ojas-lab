@@ -129,6 +129,17 @@
     e.preventDefault();
     var q = (input.value || "").trim();
     if (!q || ocupado) return;
+    var n = q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (/quero este plano|quero esse plano|quero o plano/.test(n)) {
+      add(q, "user");
+      input.value = "";
+      add("Certo. Abro o formulário para a equipe receber seus dados.", "bot");
+      if (typeof window.ojasAbrirPlano === "function") {
+        window.ojasAbrirPlano("Vitrine + Ôjas Bot");
+      }
+      return;
+    }
+
     ocupado = true;
     input.disabled = true;
     add(q, "user");
