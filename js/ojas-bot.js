@@ -116,7 +116,8 @@
   var panel = document.getElementById("botPanel");
   document.querySelectorAll("[data-open-bot]").forEach(function (el) {
     el.addEventListener("click", function () {
-      if (panel) panel.hidden = false;
+      if (!panel) return;
+      panel.hidden = !panel.hidden;
     });
   });
   document.querySelectorAll("[data-close-bot]").forEach(function (el) {
