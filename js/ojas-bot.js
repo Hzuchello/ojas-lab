@@ -53,12 +53,42 @@
     return null;
   }
 
+  function indica(n) {
+    var querBot = has(n, ["atendent", "virtual", "24h", "24 h", "fora do horario", "tire duvida", "tira duvida", "whatsapp", "chat"]);
+    var querVenda = has(n, ["venda", "vender", "loja", "ecommerce", "e-commerce", "carrinho", "checkout", "pagamento", "catalogo", "catalogo", "livraria", "produto"]);
+    var querAuto = has(n, ["automat", "n8n", "integr", "planilha", "crm", "sistema", "fluxo", "pedido sozinho"]);
+    var soSite = has(n, ["site", "vitrine", "presenca", "pagina"]) && !querBot && !querAuto && !querVenda;
+
+    if (querVenda && querBot) {
+      return "Para livraria ou loja com atendente virtual, o recorte da ficha é o 02 — Vitrine + Ôjas Bot (" + preco(planos.bot) + "): site + atendimento 24h, coleta do pedido e envio por e-mail ou WhatsApp. O bot da casa não fecha o pagamento sozinho. Carrinho e checkout ficam fora dos três planos; a equipe orça isso à parte no " + WA + ". Se o pedido já tiver que ir sozinho para planilha ou sistema, o 03 (" + preco(planos.automacao) + ") entra no lugar do 02.";
+    }
+    if (querAuto) {
+      return "O mais indicado é o 03 — Vitrine + Bot + Automação (" + preco(planos.automacao) + "): site, atendimento e até 3 fluxos n8n (lead para e-mail/Telegram, planilha ou CRM, follow-up). ERP ou loja pesada a equipe vê no " + WA + ".";
+    }
+    if (querBot) {
+      return "O mais indicado é o 02 — Vitrine + Ôjas Bot (" + preco(planos.bot) + "): o site e o atendente 24h no próprio site, encaminhando por e-mail e WhatsApp. Não realiza a venda sozinho.";
+    }
+    if (soSite || has(n, ["so um site", "somente o site", "apenas o site"])) {
+      return "O mais indicado é o 01 — Vitrine (" + preco(planos.vitrine) + "): site completo, 1 ano de domínio e 30 dias de ajustes. Sem bot e sem automação.";
+    }
+    if (querVenda && !querBot) {
+      return "Catálogo na web cabe na Vitrine (" + preco(planos.vitrine) + "). Se quiser alguém respondendo 24h, sobe para o 02 (" + preco(planos.bot) + "). Fechar venda com pagamento automático nenhum plano da ficha cobre — isso a equipe trata no " + WA + ".";
+    }
+    return null;
+  }
+
   function answer(q) {
     var n = norm(q);
     var p = qualPlano(n);
 
     if (has(n, ["oi", "ola", "bom dia", "boa tarde", "boa noite"]) && n.length < 24) {
-      return "Olá. Sou o Ôjas Bot. Posso detalhar cada plano, o que entra e o que não entra, prazos típicos e como contratar. O que você quer saber?";
+      return "Olá. Sou o Ôjas Bot. Posso indicar o plano a partir da sua necessidade, detalhar o que entra e dizer como contratar. Qual é o seu recorte?";
+    }
+
+    var pediuIndicacao = has(n, ["indicado", "indicar", "melhor", "mais serve", "se adequ", "para mim", "meu negocio", "minha empresa", "preciso", "quero um", "quero uma"]);
+    if (pediuIndicacao || (indica(n) && !p && n.length > 28)) {
+      var rec = indica(n);
+      if (rec) return rec;
     }
 
     if (has(n, ["contratar", "contrato", "fechar", "assinar", "como faco", "como faço", "quero contratar", "como contrato"])) {
