@@ -76,6 +76,8 @@
   function perguntar(mensagem) {
     var corpo = {
       mensagem: mensagem,
+      chatInput: mensagem,
+      sessionId: "site-ojas",
       historico: historico.slice(-10),
       origem: "site-ojas-lab",
       pagina: location.pathname,
@@ -85,7 +87,10 @@
     var timer = setTimeout(function () { ctrl.abort(); }, 12000);
     return fetch(N8N_BOT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "1"
+      },
       body: JSON.stringify(corpo),
       signal: ctrl.signal
     }).then(function (res) {
