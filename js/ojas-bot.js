@@ -7,6 +7,7 @@
   var N8N_BOT = "https://overfunctioning-undefensibly-johnette.ngrok-free.dev/webhook/50729f79-5bfa-4a69-8e0a-9a5d7cb167bb";
   var WA = "WhatsApp +55 41 9128-3609";
   var historico = [];
+  var sessao = "site-" + Math.random().toString(36).slice(2, 10);
   var ocupado = false;
 
   function limpaMd(s) {
@@ -85,7 +86,7 @@
     var corpo = {
       mensagem: mensagem,
       chatInput: mensagem,
-      sessionId: "site-ojas",
+      sessionId: sessao,
       historico: historico.slice(-10),
       origem: "site-ojas-lab",
       pagina: location.pathname,
@@ -111,7 +112,7 @@
     });
   }
 
-  add("Olá. Sou o Ôjas Bot. Conte o que o negócio precisa — eu esclareço e indico o recorte da casa.", "bot");
+  add("Olá. Sou o Ôjas Bot. Posso esclarecer os planos da casa.", "bot");
 
   var panel = document.getElementById("botPanel");
   document.querySelectorAll("[data-open-bot]").forEach(function (el) {
@@ -131,7 +132,7 @@
     var q = (input.value || "").trim();
     if (!q || ocupado) return;
     var n = q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    if (/quero este plano|quero esse plano|quero o plano/.test(n)) {
+    if (/^(quero|sim|esse|este|ok|quero este plano|quero esse plano|quero o plano)[!.]?$/.test(n) || /quero este plano|quero esse plano/.test(n)) {
       add(q, "user");
       input.value = "";
       add("Certo. Abro o formulário para a equipe receber seus dados.", "bot");
