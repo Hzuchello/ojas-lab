@@ -4,130 +4,10 @@
   var input = document.getElementById("q");
   if (!thread || !form) return;
 
+  var N8N_BOT = "https://n8n.ojaslab.com.br/webhook/ojas-bot";
   var WA = "WhatsApp +55 41 9128-3609";
-
-  var planos = {
-    vitrine: {
-      nome: "Vitrine",
-      setup: "R$ 1.490",
-      mensal: null,
-      entra: "site completo, 1 ano de domínio e 30 dias de manutenção e alterações.",
-      naoEntra: "não inclui e-commerce, área logada, app, ERP, tráfego pago nem alterações depois dos 30 dias sem novo acordo.",
-      para: "quem precisa de site próprio, ainda sem atendimento automático."
-    },
-    bot: {
-      nome: "Vitrine + Ôjas Bot",
-      setup: "R$ 2.490",
-      mensal: "R$ 149/mês",
-      entra: "tudo da Vitrine, mais atendimento 24h/7 no site, coleta de dados e envio por e-mail e WhatsApp.",
-      naoEntra: "não fecha pagamento sozinho e não cobre automação de processos — isso é o plano 03.",
-      para: "quem quer o site respondendo fora do horário e encaminhando o lead."
-    },
-    automacao: {
-      nome: "Vitrine + Bot + Automação",
-      setup: "R$ 4.490",
-      mensal: "R$ 297/mês",
-      entra: "tudo do plano 02, mais integração de sistemas e automação com n8n (até 3 fluxos: por exemplo lead para e-mail/Telegram, planilha ou CRM simples, e um follow-up).",
-      naoEntra: "não inclui ERP pesado, loja complexa, app nem fluxo extra sem aditivo — extra a equipe orça à parte.",
-      para: "quando o lead já nasce no site e precisa seguir sozinho até a operação."
-    }
-  };
-
-  function norm(q) {
-    return (q || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  }
-  function has(n, keys) {
-    for (var i = 0; i < keys.length; i++) if (n.indexOf(keys[i]) !== -1) return true;
-    return false;
-  }
-  function preco(p) {
-    return p.mensal ? p.setup + " + " + p.mensal : p.setup;
-  }
-  function ficha(p) {
-    return p.nome + " sai por " + preco(p) + ". Entra: " + p.entra + " " + p.naoEntra + " Indicação: " + p.para + " Para contratar, use Quero este plano na seção Planos ou fale no " + WA + ".";
-  }
-  function qualPlano(n) {
-    if (/(plano\s*(0?3|tres|três)|terceiro|n8n|automacao|integracao|processo)/.test(n)) return planos.automacao;
-    if (/(plano\s*(0?2|dois)|segundo|ojas bot|\bbot\b|atendimento|24h|24 h)/.test(n)) return planos.bot;
-    if (/(plano\s*(0?1|um)|primeiro|vitrine|\bsite\b)/.test(n)) return planos.vitrine;
-    return null;
-  }
-
-  function indica(n) {
-    var querBot = has(n, ["atendent", "virtual", "24h", "24 h", "fora do horario", "tire duvida", "tira duvida", "whatsapp", "chat"]);
-    var querVenda = has(n, ["venda", "vender", "loja", "ecommerce", "e-commerce", "carrinho", "checkout", "pagamento", "catalogo", "catalogo", "livraria", "produto"]);
-    var querAuto = has(n, ["automat", "n8n", "integr", "planilha", "crm", "sistema", "fluxo", "pedido sozinho"]);
-    var soSite = has(n, ["site", "vitrine", "presenca", "pagina"]) && !querBot && !querAuto && !querVenda;
-
-    if (querVenda && querBot) {
-      return "Para livraria ou loja com atendente virtual, o recorte da ficha é o 02 — Vitrine + Ôjas Bot (" + preco(planos.bot) + "): site + atendimento 24h, coleta do pedido e envio por e-mail ou WhatsApp. O bot da casa não fecha o pagamento sozinho. Carrinho e checkout ficam fora dos três planos; a equipe orça isso à parte no " + WA + ". Se o pedido já tiver que ir sozinho para planilha ou sistema, o 03 (" + preco(planos.automacao) + ") entra no lugar do 02.";
-    }
-    if (querAuto) {
-      return "O mais indicado é o 03 — Vitrine + Bot + Automação (" + preco(planos.automacao) + "): site, atendimento e até 3 fluxos n8n (lead para e-mail/Telegram, planilha ou CRM, follow-up). ERP ou loja pesada a equipe vê no " + WA + ".";
-    }
-    if (querBot) {
-      return "O mais indicado é o 02 — Vitrine + Ôjas Bot (" + preco(planos.bot) + "): o site e o atendente 24h no próprio site, encaminhando por e-mail e WhatsApp. Não realiza a venda sozinho.";
-    }
-    if (soSite || has(n, ["so um site", "somente o site", "apenas o site"])) {
-      return "O mais indicado é o 01 — Vitrine (" + preco(planos.vitrine) + "): site completo, 1 ano de domínio e 30 dias de ajustes. Sem bot e sem automação.";
-    }
-    if (querVenda && !querBot) {
-      return "Catálogo na web cabe na Vitrine (" + preco(planos.vitrine) + "). Se quiser alguém respondendo 24h, sobe para o 02 (" + preco(planos.bot) + "). Fechar venda com pagamento automático nenhum plano da ficha cobre — isso a equipe trata no " + WA + ".";
-    }
-    return null;
-  }
-
-  function answer(q) {
-    var n = norm(q);
-    var p = qualPlano(n);
-
-    if (has(n, ["oi", "ola", "bom dia", "boa tarde", "boa noite"]) && n.length < 24) {
-      return "Olá. Sou o Ôjas Bot. Posso indicar o plano a partir da sua necessidade, detalhar o que entra e dizer como contratar. Qual é o seu recorte?";
-    }
-
-    var pediuIndicacao = has(n, ["indicado", "indicar", "melhor", "mais serve", "se adequ", "para mim", "meu negocio", "minha empresa", "preciso", "quero um", "quero uma"]);
-    if (pediuIndicacao || (indica(n) && !p && n.length > 28)) {
-      var rec = indica(n);
-      if (rec) return rec;
-    }
-
-    if (has(n, ["contratar", "contrato", "fechar", "assinar", "como faco", "como faço", "quero contratar", "como contrato"])) {
-      return "Aqui eu só esclareço. Para contratar: role até Planos, clique em Quero este plano e envie nome, WhatsApp e e-mail — ou fale direto no " + WA + ". Diga qual recorte (Vitrine, Vitrine + Bot ou o 03 com n8n) se já tiver escolha.";
-    }
-
-    if (has(n, ["desconto", "barato", "parcel", "promo"])) {
-      return "Não aplico desconto daqui. Os valores da ficha são R$ 1.490, R$ 2.490 + R$ 149/mês e R$ 4.490 + R$ 297/mês. Condição diferente só com a equipe no " + WA + ".";
-    }
-
-    if (has(n, ["nao entra", "não entra", "nao inclui", "não inclui", "fora"])) {
-      if (p) return p.nome + ": " + p.naoEntra;
-      return "Nenhum plano inclui e-commerce complexo, app, ERP pesado ou tráfego pago. Alteração de site depois dos 30 dias e fluxo n8n extra saem de acordo à parte.";
-    }
-
-    if (has(n, ["prazo", "tempo", "demora", "entrega", "quando fica pronto"])) {
-      return "Prazo firme só depois da escuta e dos materiais (logo, textos). Em geral a Vitrine sai em poucos ciclos; o bot entra com as perguntas do negócio; o n8n depois de mapear de onde o dado vem e para onde vai. Data fechada: " + WA + ".";
-    }
-
-    if (p && has(n, ["preco", "valor", "custa", "investimento", "mensal"])) {
-      return p.nome + " custa " + preco(p) + ".";
-    }
-
-    if (p) return ficha(p);
-
-    if (has(n, ["diferenca", "compar", "qual plano", "qual escolher", "os tres", "os 3"])) {
-      return "01 Vitrine — " + preco(planos.vitrine) + " — só o site. 02 Vitrine + Bot — " + preco(planos.bot) + " — site com atendimento 24h. 03 + automação — " + preco(planos.automacao) + " — os anteriores com até 3 fluxos n8n. Qual desses quer que eu abra no detalhe?";
-    }
-
-    if (has(n, ["preco", "valor", "custa", "investimento", "planos", "plano"])) {
-      return "Três recortes: Vitrine " + preco(planos.vitrine) + "; Vitrine + Ôjas Bot " + preco(planos.bot) + "; Vitrine + Bot + Automação " + preco(planos.automacao) + ". Quer o detalhe de um deles (o que entra e o que não entra)?";
-    }
-
-    if (has(n, ["whatsapp", "falar com", "humano", "equipe"])) {
-      return "A equipe atende no " + WA + ". Se for para contratar um recorte já escolhido, o formulário Quero este plano também chega para nós.";
-    }
-
-    return "Posso detalhar Vitrine, Vitrine + Ôjas Bot ou o plano com n8n — preço, o que entra, o que fica de fora e como contratar. Se a dúvida sair dessa ficha, a equipe responde no " + WA + ".";
-  }
+  var historico = [];
+  var ocupado = false;
 
   function add(text, who) {
     var el = document.createElement("div");
@@ -135,30 +15,129 @@
     el.textContent = text;
     thread.appendChild(el);
     thread.scrollTop = thread.scrollHeight;
+    return el;
   }
 
-  add("Olá. Sou o Ôjas Bot. Pergunte sobre um plano específico, o que entra, prazos ou como contratar.", "bot");
+  function addCta(plano) {
+    if (!plano) return;
+    var wrap = document.createElement("div");
+    wrap.className = "msg msg--bot msg--cta";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn btn--gold plano__btn";
+    btn.setAttribute("data-plano", plano);
+    btn.textContent = "Quero este plano";
+    wrap.appendChild(btn);
+    thread.appendChild(wrap);
+    thread.scrollTop = thread.scrollHeight;
+    if (typeof window.ojasAbrirPlano === "function") {
+      btn.addEventListener("click", function () {
+        window.ojasAbrirPlano(plano);
+      });
+    }
+  }
+
+  function setTyping(on) {
+    var existing = thread.querySelector(".msg--typing");
+    if (existing) existing.remove();
+    if (!on) return;
+    var el = document.createElement("div");
+    el.className = "msg msg--bot msg--typing";
+    el.textContent = "Digitando…";
+    thread.appendChild(el);
+    thread.scrollTop = thread.scrollHeight;
+  }
+
+  function fallback() {
+    return "Não consegui falar com o laboratório agora. Tente de novo em instantes ou chame a equipe no " + WA + ".";
+  }
+
+  function lerResposta(raw) {
+    var data = raw;
+    if (typeof raw === "string") {
+      try { data = JSON.parse(raw); } catch (e) {
+        return { texto: raw, planoSugerido: "", mostrarBotao: false };
+      }
+    }
+    if (Array.isArray(data)) data = data[0] || {};
+    if (data && data.json) data = data.json;
+    var texto = "";
+    if (typeof data === "string") texto = data;
+    else if (data) {
+      texto = data.texto || data.resposta || data.output || data.message || data.text || "";
+    }
+    return {
+      texto: (texto || "").trim(),
+      planoSugerido: data && data.planoSugerido ? String(data.planoSugerido) : "",
+      mostrarBotao: !!(data && data.mostrarBotao)
+    };
+  }
+
+  function perguntar(mensagem) {
+    var corpo = {
+      mensagem: mensagem,
+      historico: historico.slice(-10),
+      origem: "site-ojas-lab",
+      pagina: location.pathname,
+      data: new Date().toISOString()
+    };
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, 12000);
+    return fetch(N8N_BOT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(corpo),
+      signal: ctrl.signal
+    }).then(function (res) {
+      if (!res.ok) throw new Error("http " + res.status);
+      return res.text();
+    }).then(function (txt) {
+      return lerResposta(txt);
+    }).finally(function () {
+      clearTimeout(timer);
+    });
+  }
+
+  add("Olá. Sou o Ôjas Bot. Conte o que o negócio precisa — eu esclareço e indico o recorte da casa.", "bot");
 
   var panel = document.getElementById("botPanel");
-  function openBot() {
-    if (panel) panel.hidden = false;
-  }
-  function closeBot() {
-    if (panel) panel.hidden = true;
-  }
   document.querySelectorAll("[data-open-bot]").forEach(function (el) {
-    el.addEventListener("click", openBot);
+    el.addEventListener("click", function () {
+      if (panel) panel.hidden = false;
+    });
   });
   document.querySelectorAll("[data-close-bot]").forEach(function (el) {
-    el.addEventListener("click", closeBot);
+    el.addEventListener("click", function () {
+      if (panel) panel.hidden = true;
+    });
   });
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var q = (input.value || "").trim();
-    if (!q) return;
+    if (!q || ocupado) return;
+    ocupado = true;
+    input.disabled = true;
     add(q, "user");
+    historico.push({ role: "user", text: q });
     input.value = "";
-    setTimeout(function () { add(answer(q), "bot"); }, 380);
+    setTyping(true);
+
+    perguntar(q).then(function (r) {
+      setTyping(false);
+      var texto = r.texto || fallback();
+      add(texto, "bot");
+      historico.push({ role: "bot", text: texto });
+      if (r.mostrarBotao && r.planoSugerido) addCta(r.planoSugerido);
+    }).catch(function () {
+      setTyping(false);
+      var t = fallback();
+      add(t, "bot");
+      historico.push({ role: "bot", text: t });
+    }).finally(function () {
+      ocupado = false;
+      input.disabled = false;
+      input.focus();
+    });
   });
 })();
