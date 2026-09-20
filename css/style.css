@@ -357,6 +357,14 @@ section { padding: 92px 0; }
   align-self: flex-end;
   background: rgba(196,161,90,0.18);
 }
+.msg--typing { opacity: 0.7; font-style: italic; }
+.msg--cta {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  max-width: 86%;
+}
+.msg--cta .btn { width: auto; }
 .console__form {
   display: flex; gap: 10px;
   padding: 14px;
@@ -514,7 +522,7 @@ section { padding: 92px 0; }
 .work__stage {
   position: relative;
   aspect-ratio: 16 / 10;
-  min-height: 0;
+  min-height: 220px;
   border-radius: 18px;
   border: 1px solid var(--line);
   overflow: hidden;
@@ -522,6 +530,8 @@ section { padding: 92px 0; }
   padding: 0;
 }
 .work__shot {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
