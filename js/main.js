@@ -29,14 +29,18 @@
     }
   }
 
+  function abrirPlano(plano) {
+    if (!form || !planoInput || !leadModal) return;
+    form.reset();
+    planoInput.value = plano || "";
+    if (planoLabel) planoLabel.textContent = plano || "";
+    openModal(leadModal);
+  }
+  window.ojasAbrirPlano = abrirPlano;
+
   document.querySelectorAll(".plano__btn[data-plano]").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      if (!form || !planoInput) return;
-      var plano = btn.getAttribute("data-plano") || "";
-      form.reset();
-      planoInput.value = plano;
-      if (planoLabel) planoLabel.textContent = plano;
-      openModal(leadModal);
+      abrirPlano(btn.getAttribute("data-plano") || "");
     });
   });
 
