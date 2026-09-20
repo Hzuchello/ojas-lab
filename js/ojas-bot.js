@@ -11,11 +11,15 @@
   var ocupado = false;
 
   function limpaMd(s) {
-    return String(s || "")
+    var out = String(s || "")
       .replace(/\*\*/g, "")
       .replace(/__/g, "")
       .replace(/`+/g, "")
       .replace(/^#+\s+/gm, "");
+    out = out.replace(/\s*Quer este plano\??/gi, "");
+    out = out.replace(/\s*Quero este plano\??/gi, "");
+    out = out.replace(/\s*Quer o 02 ou o 03\??/gi, "");
+    return out.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
   }
 
   function add(text, who) {
