@@ -236,8 +236,8 @@ section { padding: 92px 0; }
   display: block;
 }
 .bot-panel {
-  width: min(360px, calc(100vw - 32px));
-  height: min(560px, 74vh);
+  width: min(380px, calc(100vw - 28px));
+  height: min(520px, 72vh);
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -245,11 +245,14 @@ section { padding: 92px 0; }
 }
 .bot-panel[hidden] { display: none; }
 .bot-panel .console__bar {
-  flex: 0 0 44px;
+  flex: 0 0 40px;
+  min-height: 40px;
+  max-height: 40px;
   display: flex;
   align-items: center;
   padding: 0 10px;
   gap: 8px;
+  box-sizing: border-box;
 }
 .bot-panel .console__mark {
   width: 22px;
@@ -283,15 +286,23 @@ section { padding: 92px 0; }
   flex: 1 1 auto;
   min-height: 0;
   max-height: none;
-  padding: 10px 12px;
+  padding: 8px 10px;
   gap: 8px;
 }
+.bot-panel .msg {
+  max-width: 100%;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  padding: 8px 11px;
+}
 .bot-panel .console__form {
-  flex: 0 0 52px;
+  flex: 0 0 44px;
+  min-height: 44px;
+  max-height: 44px;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  gap: 8px;
+  padding: 0 8px;
+  gap: 6px;
   box-sizing: border-box;
 }
 .bot-panel .console__form input {
