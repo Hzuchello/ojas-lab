@@ -4,7 +4,7 @@
   var input = document.getElementById("q");
   if (!thread || !form) return;
 
-  var N8N_BOT = "https://n8n.ojaslab.com.br/webhook/ojas-bot";
+  var N8N_BOT = "https://overfunctioning-undefensibly-johnette.ngrok-free.dev/webhook/50729f79-5bfa-4a69-8e0a-9a5d7cb167bb";
   var WA = "WhatsApp +55 41 9128-3609";
   var historico = [];
   var ocupado = false;
