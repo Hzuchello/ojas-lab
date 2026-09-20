@@ -47,9 +47,9 @@
     return p.nome + " sai por " + preco(p) + ". Entra: " + p.entra + " " + p.naoEntra + " Indicação: " + p.para + " Para contratar, use Quero este plano na seção Planos ou fale no " + WA + ".";
   }
   function qualPlano(n) {
-    if (has(n, ["03", "n8n", "automacao", "integracao", "processo"])) return planos.automacao;
-    if (has(n, ["02", "ojas bot", "atendimento", "24h", "24 h"])) return planos.bot;
-    if (has(n, ["01", "vitrine", "site"])) return planos.vitrine;
+    if (/(plano\s*(0?3|tres|três)|terceiro|n8n|automacao|integracao|processo)/.test(n)) return planos.automacao;
+    if (/(plano\s*(0?2|dois)|segundo|ojas bot|\bbot\b|atendimento|24h|24 h)/.test(n)) return planos.bot;
+    if (/(plano\s*(0?1|um)|primeiro|vitrine|\bsite\b)/.test(n)) return planos.vitrine;
     return null;
   }
 
