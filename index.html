@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ôjas Lab — Automação, sites e atendimento com IA</title>
+<title>Ôjas Lab</title>
 <meta name="description" content="Ôjas Lab: consultoria e automação com IA. Sites, Ôjas Bot e fluxos em n8n para o seu negócio atender e operar 24 horas.">
 <link rel="icon" href="logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,10 +24,9 @@
     <a href="#servicos">Serviços</a>
     <a href="#planos">Planos</a>
     <a href="#metodo">Método</a>
-    <a href="#bot">Ôjas Bot</a>
     <a href="entregue.html">Já entregue</a>
   </nav>
-  <a class="btn btn--ghost" href="https://wa.me/554191283609" target="_blank" rel="noopener">Contato</a>
+  <a class="btn btn--ghost" href="#contato">Contato</a>
 </header>
 
 <main id="inicio">
@@ -37,13 +36,12 @@
       <p class="eyebrow">Automação · Consultoria · Inteligência artificial</p>
       <h1>Presença digital com operação que não dorme.</h1>
       <p class="lede">
-        A Ôjas Lab desenha a vitrine do seu negócio e o motor por trás dela:
-        site, atendimento automático e automação de processos com n8n —
-        com a mesma precisão de quem trata marca como ativo.
+        O Ôjas Lab desenha a vitrine do seu negócio e o motor por trás dele:
+        site, atendimento automático e automação de processos com n8n.
       </p>
       <div class="hero__cta">
         <a class="btn btn--gold" href="#planos">Ver planos</a>
-        <a class="btn btn--ghost" href="#bot">Falar com o Ôjas Bot</a>
+        <button type="button" class="btn btn--ghost" data-open-bot>Falar com o Ôjas Bot</button>
       </div>
     </div>
     <div class="hero__orb" aria-hidden="true">
@@ -145,7 +143,7 @@
         <li>
           <span>01</span>
           <h3>Escuta</h3>
-          <p>Mapeamos o negócio, os canais e o que realmente precisa ser automatizado — sem teatro.</p>
+          <p>Mapeamos o negócio, os canais e o que realmente precisa ser automatizado.</p>
         </li>
         <li>
           <span>02</span>
@@ -166,40 +164,11 @@
     </div>
   </section>
 
-  <section class="bot-stage" id="bot">
-    <div class="wrap bot-stage__grid">
-      <div class="bot-stage__copy">
-        <p class="eyebrow">Ôjas Bot</p>
-        <h2>Tire dúvidas aqui. Sem widget escondido no canto.</h2>
-        <p class="lede">
-          O atendimento faz parte da página — como deve ser no seu site também.
-          Pergunte sobre planos, prazos, n8n ou o que entra em cada entrega.
-        </p>
-      </div>
-
-      <div class="console" role="region" aria-label="Ôjas Bot">
-        <div class="console__bar">
-          <img src="logo-nav.png" alt="" class="console__mark">
-          <div>
-            <strong>Ôjas Bot</strong>
-            <span>on-line</span>
-          </div>
-        </div>
-        <div class="console__thread" id="thread"></div>
-        <form class="console__form" id="ask" autocomplete="off">
-          <label class="sr-only" for="q">Sua pergunta</label>
-          <input id="q" name="q" type="text" placeholder="Escreva sua dúvida…" required>
-          <button class="btn btn--gold" type="submit">Enviar</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <section class="close">
+  <section class="close" id="contato">
     <div class="wrap close__inner glass">
       <h2>Pronto para colocar o laboratório a serviço do seu negócio?</h2>
       <p>Uma conversa curta basta para entendermos o recorte certo.</p>
-      <a class="btn btn--gold" href="https://wa.me/554191283609" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="btn btn--gold" href="https://wa.me/554191283609" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </section>
 
@@ -211,7 +180,7 @@
       <img src="logo-nav.png" alt="Ôjas Lab">
     </a>
     <span>© 2026</span>
-    <span>Automação e consultoria com IA.</span>
+    <span>Ôjas Lab — Automação, sites e atendimento com IA.</span>
   </p>
 </footer>
 
@@ -253,6 +222,25 @@
     <p>Recebemos sua solicitação, entraremos em contato nos próximos dias. Obrigado por nos escolher!</p>
     <button type="button" class="btn btn--gold" data-close="thanks">Fechar</button>
   </div>
+</div>
+
+<div class="bot-widget">
+  <div class="bot-panel glass" id="botPanel" hidden>
+    <div class="console__bar">
+      <img src="logo-nav.png" alt="" class="console__mark">
+      <strong>Ôjas Bot</strong>
+      <button type="button" class="bot-close" data-close-bot aria-label="Fechar">×</button>
+    </div>
+    <div class="console__thread" id="thread"></div>
+    <form class="console__form" id="ask" autocomplete="off">
+      <label class="sr-only" for="q">Sua pergunta</label>
+      <input id="q" name="q" type="text" placeholder="Escreva sua dúvida…" required>
+      <button class="btn btn--gold" type="submit">Enviar</button>
+    </form>
+  </div>
+  <button type="button" class="bot-fab" data-open-bot aria-label="Abrir Ôjas Bot">
+    <img src="logo-nav.png" alt="Ôjas Bot">
+  </button>
 </div>
 
 <script src="js/ojas-bot.js"></script>
