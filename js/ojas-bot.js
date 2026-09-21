@@ -11,6 +11,9 @@
   var sessao = "";
   var ocupado = false;
   var mensagens = [];
+  var IDLE = 15 * 60 * 1000;
+  var lastAt = Date.now();
+  var ENCERRADO = "Encerramos esta conversa por inatividade. Se tiver outra dúvida, estou à disposição.";
 
   function lerStore() {
     try { return JSON.parse(localStorage.getItem(STORE) || "null"); }
@@ -22,6 +25,7 @@
         sessao: sessao,
         historico: historico.slice(-20),
         mensagens: mensagens.slice(-40),
+        lastAt: lastAt,
         aberto: !!(document.getElementById("botPanel") && document.getElementById("botPanel").classList.contains("is-open"))
       }));
     } catch (e) {}
@@ -147,17 +151,49 @@
     gravarStore();
   }
 
+  function novaSessao() {
+    sessao = "site-" + Math.random().toString(36).slice(2, 10);
+    historico = [];
+    lastAt = Date.now();
+  }
+  function limparFio() {
+    thread.innerHTML = "";
+    mensagens = [];
+  }
+  function encerrarPorInatividade() {
+    limparFio();
+    novaSessao();
+    add(ENCERRADO, "bot");
+    lastAt = Date.now();
+    gravarStore();
+  }
+  function marcarUso() {
+    lastAt = Date.now();
+    gravarStore();
+  }
+
   var salvo = lerStore();
-  if (salvo && salvo.sessao) sessao = salvo.sessao;
-  else sessao = "site-" + Math.random().toString(36).slice(2, 10);
-  if (salvo && salvo.historico && salvo.historico.length) historico = salvo.historico;
-  if (salvo && salvo.mensagens && salvo.mensagens.length) {
+  var velho = salvo && salvo.lastAt && (Date.now() - Number(salvo.lastAt) > IDLE);
+  if (velho) {
+    novaSessao();
+    add(ENCERRADO, "bot");
+  } else if (salvo && salvo.mensagens && salvo.mensagens.length) {
+    sessao = salvo.sessao || ("site-" + Math.random().toString(36).slice(2, 10));
+    historico = salvo.historico || [];
+    lastAt = Number(salvo.lastAt) || Date.now();
     salvo.mensagens.forEach(function (m) { add(m.text, m.who, true); });
     mensagens = salvo.mensagens.slice();
   } else {
+    novaSessao();
     add("Olá. Sou o Ôjas Bot. Posso esclarecer os planos da casa.", "bot");
   }
-  if (salvo && salvo.aberto) setBotOpen(true);
+  if (salvo && salvo.aberto && !velho) setBotOpen(true);
+  setInterval(function () {
+    if (Date.now() - lastAt >= IDLE && mensagens.length) {
+      var soAviso = mensagens.length === 1 && mensagens[0].text === ENCERRADO;
+      if (!soAviso) encerrarPorInatividade();
+    }
+  }, 30000);
   document.querySelectorAll("[data-open-bot]").forEach(function (el) {
     el.addEventListener("click", function () {
       setBotOpen(!(panel && panel.classList.contains("is-open")));
@@ -173,6 +209,7 @@
     e.preventDefault();
     var q = (input.value || "").trim();
     if (!q || ocupado) return;
+    marcarUso();
     var n = q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     if (/^(quero|sim|esse|este|ok|quero este plano|quero esse plano|quero o plano)[!.]?$/.test(n) || /quero este plano|quero esse plano/.test(n)) {
       add(q, "user");
