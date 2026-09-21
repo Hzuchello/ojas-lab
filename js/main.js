@@ -34,8 +34,10 @@
   var N8N_WEBHOOK = "https://n8n.ojaslab.com.br/webhook/lead-plano";
 
   var leadModal = document.getElementById("leadModal");
+  var contatoModal = document.getElementById("contatoModal");
   var thanksModal = document.getElementById("thanksModal");
   var form = document.getElementById("leadForm");
+  var contatoForm = document.getElementById("contatoForm");
   var planoInput = document.getElementById("leadPlano");
   var planoLabel = document.getElementById("leadPlanoLabel");
 
@@ -44,12 +46,15 @@
     el.hidden = false;
     document.body.style.overflow = "hidden";
   }
+  function algumAberto() {
+    return (leadModal && !leadModal.hidden)
+      || (contatoModal && !contatoModal.hidden)
+      || (thanksModal && !thanksModal.hidden);
+  }
   function closeModal(el) {
     if (!el) return;
     el.hidden = true;
-    if ((!leadModal || leadModal.hidden) && (!thanksModal || thanksModal.hidden)) {
-      document.body.style.overflow = "";
-    }
+    if (!algumAberto()) document.body.style.overflow = "";
   }
 
   function abrirPlano(plano) {
@@ -67,10 +72,20 @@
     });
   });
 
+  document.querySelectorAll(".nav__contato").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (contatoForm) contatoForm.reset();
+      openModal(contatoModal);
+    });
+  });
+
   document.querySelectorAll("[data-close]").forEach(function (el) {
     el.addEventListener("click", function () {
       var which = el.getAttribute("data-close");
-      closeModal(which === "lead" ? leadModal : thanksModal);
+      if (which === "lead") closeModal(leadModal);
+      else if (which === "contato") closeModal(contatoModal);
+      else closeModal(thanksModal);
     });
   });
 
@@ -94,6 +109,31 @@
       }).catch(function () {});
 
       closeModal(leadModal);
+      openModal(thanksModal);
+    });
+  }
+
+  if (contatoForm) {
+    contatoForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var data = {
+        nome: (contatoForm.nome.value || "").trim(),
+        whatsapp: (contatoForm.whatsapp.value || "").trim(),
+        telefone: (contatoForm.whatsapp.value || "").trim(),
+        email: (contatoForm.email.value || "").trim(),
+        motivo: (contatoForm.motivo.value || "").trim(),
+        origem: "contato-site",
+        data: new Date().toISOString()
+      };
+      if (!data.nome || !data.whatsapp || !data.email || !data.motivo) return;
+
+      fetch(N8N_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).catch(function () {});
+
+      closeModal(contatoModal);
       openModal(thanksModal);
     });
   }
