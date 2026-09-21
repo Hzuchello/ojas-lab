@@ -6,6 +6,29 @@
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+
+    var toggle = nav.querySelector(".nav__toggle");
+    var links = nav.querySelector(".nav__links");
+    function setMenu(on) {
+      nav.classList.toggle("is-menu", on);
+      if (toggle) {
+        toggle.setAttribute("aria-expanded", on ? "true" : "false");
+        toggle.setAttribute("aria-label", on ? "Fechar menu" : "Abrir menu");
+      }
+    }
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        setMenu(!nav.classList.contains("is-menu"));
+      });
+    }
+    if (links) {
+      links.querySelectorAll("a").forEach(function (a) {
+        a.addEventListener("click", function () { setMenu(false); });
+      });
+    }
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 820) setMenu(false);
+    });
   }
 
   var N8N_WEBHOOK = "https://n8n.ojaslab.com.br/webhook/lead-plano";
