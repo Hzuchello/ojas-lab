@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacidade — Ôjas Lab</title>
+<meta name="description" content="Como a Ôjas Lab trata dados pessoais no site, no formulário e no Ôjas Bot.">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=6">
+</head>
+<body>
+
+<div class="atmosphere" aria-hidden="true"></div>
+
+<header class="nav">
+  <a href="index.html#inicio" class="brand">
+    <img src="logo-nav.png" alt="Ôjas Lab" class="brand__mark">
+    <span class="brand__name">Ôjas Lab</span>
+  </a>
+  <nav class="nav__links" id="navLinks">
+    <a href="index.html#metodo">Método</a>
+    <a href="index.html#planos">Planos</a>
+    <a href="entregue.html">Já entregue</a>
+  </nav>
+  <a class="btn btn--ghost nav__contato" href="index.html#contato">Contato</a>
+  <button type="button" class="nav__toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <p class="eyebrow">Privacidade</p>
+    <h1>Como tratamos os seus dados.</h1>
+  </section>
+
+  <section class="wrap legal">
+    <p>Esta página descreve o tratamento de dados pessoais no site ojaslab.com.br, no formulário de planos e no Ôjas Bot. Controladora: Ôjas Lab, Curitiba/PR. Atualizado em 20 de setembro de 2026.</p>
+
+    <h2>O que coletamos</h2>
+    <p>Quando você pede um plano ou fala no chat: nome, telefone (WhatsApp), e-mail, o plano de interesse e o texto da conversa. Também registramos data, página de origem e identificador técnico da sessão do chat no seu navegador.</p>
+    <p>Não pedimos CPF, cartão, senha ou documento.</p>
+
+    <h2>Para que usamos</h2>
+    <p>Responder à solicitação, esclarecer o recorte contratado e entrar em contato. Não vendemos lista. Não fazemos perfil publicitário com esses dados.</p>
+
+    <h2>Com quem compartilhamos</h2>
+    <p>O envio passa por automação em n8n na infraestrutura da Ôjas Lab e pode chegar ao e-mail e ao Telegram da equipe. O site é publicado em provedor de hospedagem. Não há transferência para anúncio pago neste momento.</p>
+
+    <h2>Por quanto tempo</h2>
+    <p>Mantemos o pedido e o histórico necessário para o atendimento e para obrigação legal. O chat no seu aparelho fica no armazenamento local do navegador até você limpar os dados do site.</p>
+
+    <h2>Seus direitos</h2>
+    <p>Você pode pedir acesso, correção, exclusão, oposição ou informação sobre o uso. Fale pelos canais de atendimento do site (formulário ou WhatsApp). Responderemos pelo mesmo canal.</p>
+
+    <h2>Cookies e armazenamento local</h2>
+    <p>Não usamos cookies de publicidade. O Ôjas Bot grava a conversa e o estado do painel no navegador (localStorage) para a conversa continuar entre páginas. Isso não identifica você perante terceiros.</p>
+
+    <h2>Alterações</h2>
+    <p>Se o tratamento mudar de forma relevante, esta página será atualizada com a nova data.</p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p class="foot__line">
+    <a href="index.html#inicio" class="foot__mark" aria-label="Ôjas Lab">
+      <img src="logo-nav.png" alt="Ôjas Lab">
+    </a>
+    <span>© 2026</span>
+    <span>Ôjas Lab — Automação, sites e atendimento com IA.</span>
+    <a class="foot__legal" href="privacidade.html">Privacidade</a>
+  </p>
+</footer>
+
+<div class="bot-widget">
+  <div class="bot-panel glass" id="botPanel">
+    <div class="console__bar">
+      <img src="logo-nav.png" alt="" class="console__mark">
+      <strong>Ôjas Bot</strong>
+      <button type="button" class="bot-close" data-close-bot aria-label="Fechar">×</button>
+    </div>
+    <div class="console__thread" id="thread"></div>
+    <form class="console__form" id="ask" autocomplete="off">
+      <label class="sr-only" for="q">Sua pergunta</label>
+      <input id="q" name="q" type="text" placeholder="Escreva sua dúvida…" required>
+      <button class="btn btn--gold" type="submit">Enviar</button>
+    </form>
+  </div>
+  <button type="button" class="bot-fab" data-open-bot aria-label="Abrir Ôjas Bot">
+    <img src="logo-nav.png" alt="Ôjas Bot">
+  </button>
+</div>
+
+<script src="js/ojas-bot.js?v=15"></script>
+<script src="js/main.js?v=2"></script>
+</body>
+</html>
