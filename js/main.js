@@ -31,7 +31,7 @@
     });
   }
 
-  var N8N_WEBHOOK = "https://n8n.ojaslab.com.br/webhook/lead-plano";
+  var N8N_WEBHOOK = "https://overfunctioning-undefensibly-johnette.ngrok-free.dev/webhook/lead-plano";
 
   var leadModal = document.getElementById("leadModal");
   var contatoModal = document.getElementById("contatoModal");
