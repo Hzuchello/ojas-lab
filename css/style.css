@@ -210,15 +210,20 @@ section { padding: 92px 0; }
 
 .bot-widget {
   position: fixed;
-  right: 22px;
-  bottom: 22px;
+  right: 16px;
+  bottom: 16px;
   z-index: 70;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
+  width: min(400px, calc(100vw - 24px));
+  height: 64px;
+  pointer-events: none;
+}
+.bot-widget.is-open {
+  height: min(680px, calc(100vh - 24px));
 }
 .bot-fab {
+  position: absolute;
+  right: 0;
+  bottom: 0;
   width: 64px;
   height: 64px;
   padding: 0;
@@ -228,6 +233,13 @@ section { padding: 92px 0; }
   cursor: pointer;
   box-shadow: 0 12px 32px rgba(0,0,0,0.35);
   overflow: hidden;
+  pointer-events: auto;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.bot-widget.is-open .bot-fab {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
 }
 .bot-fab img {
   width: 100%;
@@ -236,15 +248,26 @@ section { padding: 92px 0; }
   display: block;
 }
 .bot-panel {
-  width: min(380px, calc(100vw - 28px));
-  height: min(520px, 72vh);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: min(680px, calc(100vh - 24px));
   min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   padding: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(110%);
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
 }
-.bot-panel[hidden] { display: none; }
+.bot-panel.is-open {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
 .bot-panel .console__bar {
   flex: 0 0 40px;
   min-height: 40px;
