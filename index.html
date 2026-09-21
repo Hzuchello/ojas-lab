@@ -217,6 +217,37 @@
   </div>
 </div>
 
+<div class="modal" id="contatoModal" hidden>
+  <div class="modal__backdrop" data-close="contato"></div>
+  <div class="modal__panel glass" role="dialog" aria-labelledby="contatoTitle" aria-modal="true">
+    <button type="button" class="modal__x" data-close="contato" aria-label="Fechar">×</button>
+    <p class="eyebrow">Contato</p>
+    <h2 id="contatoTitle">Fale com o laboratório</h2>
+    <form id="contatoForm" novalidate>
+      <label>
+        Nome
+        <input type="text" name="nome" required autocomplete="name">
+      </label>
+      <label>
+        WhatsApp
+        <input type="tel" name="whatsapp" required autocomplete="tel">
+      </label>
+      <label>
+        E-mail
+        <input type="email" name="email" required autocomplete="email">
+      </label>
+      <label>
+        Motivo do contato
+        <textarea name="motivo" required rows="4"></textarea>
+      </label>
+      <button type="submit" class="btn btn--gold modal__send">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.6 21 12 3.4 3.4 3 10.2 15 12 3 13.8z"/></svg>
+        Enviar
+      </button>
+    </form>
+  </div>
+</div>
+
 <div class="modal" id="thanksModal" hidden>
   <div class="modal__backdrop" data-close="thanks"></div>
   <div class="modal__panel glass modal__panel--thanks" role="dialog" aria-labelledby="thanksTitle" aria-modal="true">
@@ -248,6 +279,6 @@
 </div>
 
 <script src="js/ojas-bot.js?v=16"></script>
-<script src="js/main.js?v=2"></script>
+<script src="js/main.js?v=3"></script>
 </body>
 </html>
