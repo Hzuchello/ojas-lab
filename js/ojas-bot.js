@@ -6,9 +6,26 @@
 
   var N8N_BOT = "https://overfunctioning-undefensibly-johnette.ngrok-free.dev/webhook/50729f79-5bfa-4a69-8e0a-9a5d7cb167bb";
   var WA = "WhatsApp +55 41 9128-3609";
+  var STORE = "ojas-lab-bot";
   var historico = [];
-  var sessao = "site-" + Math.random().toString(36).slice(2, 10);
+  var sessao = "";
   var ocupado = false;
+  var mensagens = [];
+
+  function lerStore() {
+    try { return JSON.parse(localStorage.getItem(STORE) || "null"); }
+    catch (e) { return null; }
+  }
+  function gravarStore() {
+    try {
+      localStorage.setItem(STORE, JSON.stringify({
+        sessao: sessao,
+        historico: historico.slice(-20),
+        mensagens: mensagens.slice(-40),
+        aberto: !!(document.getElementById("botPanel") && document.getElementById("botPanel").classList.contains("is-open"))
+      }));
+    } catch (e) {}
+  }
 
   function limpaMd(s) {
     var out = String(s || "")
@@ -22,12 +39,16 @@
     return out.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
   }
 
-  function add(text, who) {
+  function add(text, who, silencioso) {
     var el = document.createElement("div");
     el.className = "msg msg--" + who;
     el.textContent = who === "bot" ? limpaMd(text) : text;
     thread.appendChild(el);
     thread.scrollTop = thread.scrollHeight;
+    if (!silencioso) {
+      mensagens.push({ who: who, text: who === "bot" ? limpaMd(text) : text });
+      gravarStore();
+    }
     return el;
   }
 
@@ -116,8 +137,6 @@
     });
   }
 
-  add("Olá. Sou o Ôjas Bot. Posso esclarecer os planos da casa.", "bot");
-
   var panel = document.getElementById("botPanel");
   var widget = document.querySelector(".bot-widget");
   function setBotOpen(on) {
@@ -125,7 +144,20 @@
     panel.classList.toggle("is-open", on);
     panel.removeAttribute("hidden");
     if (widget) widget.classList.toggle("is-open", on);
+    gravarStore();
   }
+
+  var salvo = lerStore();
+  if (salvo && salvo.sessao) sessao = salvo.sessao;
+  else sessao = "site-" + Math.random().toString(36).slice(2, 10);
+  if (salvo && salvo.historico && salvo.historico.length) historico = salvo.historico;
+  if (salvo && salvo.mensagens && salvo.mensagens.length) {
+    salvo.mensagens.forEach(function (m) { add(m.text, m.who, true); });
+    mensagens = salvo.mensagens.slice();
+  } else {
+    add("Olá. Sou o Ôjas Bot. Posso esclarecer os planos da casa.", "bot");
+  }
+  if (salvo && salvo.aberto) setBotOpen(true);
   document.querySelectorAll("[data-open-bot]").forEach(function (el) {
     el.addEventListener("click", function () {
       setBotOpen(!(panel && panel.classList.contains("is-open")));
