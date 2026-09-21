@@ -119,15 +119,21 @@
   add("Olá. Sou o Ôjas Bot. Posso esclarecer os planos da casa.", "bot");
 
   var panel = document.getElementById("botPanel");
+  var widget = document.querySelector(".bot-widget");
+  function setBotOpen(on) {
+    if (!panel) return;
+    panel.classList.toggle("is-open", on);
+    panel.removeAttribute("hidden");
+    if (widget) widget.classList.toggle("is-open", on);
+  }
   document.querySelectorAll("[data-open-bot]").forEach(function (el) {
     el.addEventListener("click", function () {
-      if (!panel) return;
-      panel.hidden = !panel.hidden;
+      setBotOpen(!(panel && panel.classList.contains("is-open")));
     });
   });
   document.querySelectorAll("[data-close-bot]").forEach(function (el) {
     el.addEventListener("click", function () {
-      if (panel) panel.hidden = true;
+      setBotOpen(false);
     });
   });
 
