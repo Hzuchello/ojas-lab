@@ -4,7 +4,7 @@
   var input = document.getElementById("q");
   if (!thread || !form) return;
 
-  var N8N_BOT = "https://n8n.ojaslab.com.br/webhook/50729f79-5bfa-4a69-8e0a-9a5d7cb167bb";
+  var N8N_BOT = "https://overfunctioning-undefensibly-johnette.ngrok-free.dev/webhook/04e2adde-8681-46f5-8fe4-d736aac72dae/chat";
   var WA = "WhatsApp +55 41 9128-3609";
   var STORE = "ojas-lab-bot";
   var historico = [];
@@ -113,16 +113,12 @@
 
   function perguntar(mensagem) {
     var corpo = {
-      mensagem: mensagem,
+      action: "sendMessage",
       chatInput: mensagem,
-      sessionId: sessao,
-      historico: historico.slice(-10),
-      origem: "site-ojas-lab",
-      pagina: location.pathname,
-      data: new Date().toISOString()
+      sessionId: sessao
     };
     var ctrl = new AbortController();
-    var timer = setTimeout(function () { ctrl.abort(); }, 12000);
+    var timer = setTimeout(function () { ctrl.abort(); }, 45000);
     return fetch(N8N_BOT, {
       method: "POST",
       headers: {
