@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=7">
+<link rel="stylesheet" href="css/style.css?v=19">
 </head>
 <body>
 
@@ -21,8 +21,9 @@
     <span class="brand__name">Ôjas Lab</span>
   </a>
   <nav class="nav__links" id="navLinks">
-    <a href="#metodo">Método</a>
+    <a href="#servicos">Serviços</a>
     <a href="#planos">Planos</a>
+    <a href="#metodo">Método</a>
     <a href="entregue.html">Trabalhos</a>
   </nav>
   <a class="btn btn--ghost nav__contato" href="#contato">Contato</a>
@@ -50,10 +51,10 @@
     </div>
   </section>
 
-  <section class="servicos" id="metodo">
+  <section class="servicos" id="servicos">
     <div class="wrap">
       <header class="section-head">
-        <p class="eyebrow">Método</p>
+        <p class="eyebrow">Serviços</p>
         <h2>Três camadas. Um laboratório.</h2>
       </header>
       <div class="cards cards--3">
@@ -131,13 +132,70 @@
           <button type="button" class="btn btn--ghost plano__btn" data-plano="Vitrine + Bot + Automação">Quero este plano</button>
         </article>
       </div>
+
+      <p class="compare__note">Nos três: até 5 páginas, 1 ano de domínio e 30 dias de alteração no site. Página extra, R$ 180. Pagamento no site, orçado à parte.</p>
+
+      <div class="compare" id="comparar">
+        <h3>O que muda</h3>
+        <div class="compare__wrap">
+          <table>
+            <caption>Suporte contínuo existe enquanto a mensalidade está ativa. No plano 01, o canal direto encerra no 31º dia.</caption>
+            <thead>
+              <tr>
+                <th>Recorte</th>
+                <th>Vitrine</th>
+                <th>Vitrine + Bot</th>
+                <th>Automação n8n</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Implantação</th>
+                <td>A partir de R$ 890</td>
+                <td>R$ 1.890</td>
+                <td>R$ 3.490</td>
+              </tr>
+              <tr>
+                <th scope="row">Mensalidade</th>
+                <td>-</td>
+                <td>R$ 149/mês</td>
+                <td>R$ 198/mês</td>
+              </tr>
+              <tr>
+                <th scope="row">Ôjas Bot no site</th>
+                <td>-</td>
+                <td>24h, 7 dias</td>
+                <td>24h, 7 dias</td>
+              </tr>
+              <tr>
+                <th scope="row">Coleta e envio do contato</th>
+                <td>-</td>
+                <td>E-mail e WhatsApp</td>
+                <td>E-mail e WhatsApp</td>
+              </tr>
+              <tr>
+                <th scope="row">Fluxos n8n</th>
+                <td>-</td>
+                <td>-</td>
+                <td>Até 3</td>
+              </tr>
+              <tr>
+                <th scope="row">Depois da mensalidade</th>
+                <td>-</td>
+                <td>O bot sai. O site fica.</td>
+                <td>Bot e n8n param. O site fica.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="metodo" id="como">
+  <section class="metodo" id="metodo">
     <div class="wrap">
       <header class="section-head">
-        <p class="eyebrow">Como trabalhamos</p>
+        <p class="eyebrow">Método</p>
         <h2>Do diagnóstico à operação.</h2>
       </header>
       <ol class="timeline">
@@ -263,8 +321,14 @@
     <div class="console__bar">
       <img src="logo-nav.png" alt="" class="console__mark">
       <strong>Ôjas Bot</strong>
+      <button type="button" class="bot-end" data-end-bot>Encerrar</button>
       <button type="button" class="bot-close" data-close-bot aria-label="Fechar">×</button>
     </div>
+    <form class="bot-gate" id="chatGateForm">
+      <label>Nome<input type="text" name="nome" required autocomplete="name"></label>
+      <label>E-mail<input type="email" name="email" required autocomplete="email"></label>
+      <button type="submit" class="btn btn--gold">Falar com Ôjas Bot</button>
+    </form>
     <div class="console__thread" id="thread"></div>
     <form class="console__form" id="ask" autocomplete="off">
       <label class="sr-only" for="q">Sua pergunta</label>
@@ -273,11 +337,11 @@
     </form>
   </div>
   <button type="button" class="bot-fab" data-open-bot aria-label="Abrir Ôjas Bot">
-    <img src="logo-nav.png" alt="Ôjas Bot">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6.5 8.5h19a2 2 0 0 1 2 2v9.5a2 2 0 0 1-2 2H14l-5.2 4.2V22H6.5a2 2 0 0 1-2-2v-9.5a2 2 0 0 1 2-2z"/></svg>
   </button>
 </div>
 
-<script src="js/ojas-bot.js?v=20"></script>
+<script src="js/ojas-bot.js?v=24"></script>
 <script src="js/main.js?v=4"></script>
 </body>
 </html>
