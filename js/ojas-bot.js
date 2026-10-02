@@ -232,6 +232,46 @@
     });
   });
 
+  var mic = document.getElementById("botMic");
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var rec = null;
+  var ouvindo = false;
+  function pararVoz() {
+    ouvindo = false;
+    if (mic) mic.classList.remove("is-on");
+    if (rec) { try { rec.stop(); } catch (e) {} }
+  }
+  if (mic) {
+    mic.addEventListener("click", function () {
+      if (!temSessao() || ocupado) return;
+      if (!SR) {
+        input.placeholder = "Este navegador não transcreve voz.";
+        return;
+      }
+      if (ouvindo) { pararVoz(); return; }
+      rec = new SR();
+      rec.lang = "pt-BR";
+      rec.interimResults = true;
+      rec.continuous = false;
+      rec.onresult = function (ev) {
+        var t = "";
+        var fim = false;
+        for (var i = 0; i < ev.results.length; i++) {
+          t += ev.results[i][0].transcript;
+          if (ev.results[i].isFinal) fim = true;
+        }
+        input.value = t.trim();
+        if (fim && input.value) form.requestSubmit();
+      };
+      rec.onerror = pararVoz;
+      rec.onend = pararVoz;
+      ouvindo = true;
+      mic.classList.add("is-on");
+      input.placeholder = "Ouvindo…";
+      rec.start();
+    });
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var q = (input.value || "").trim();
