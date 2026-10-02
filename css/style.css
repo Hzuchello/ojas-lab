@@ -486,6 +486,26 @@ section { padding: 92px 0; }
   border-radius: 12px;
   box-sizing: border-box;
 }
+.bot-mic {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(243, 234, 216, 0.06);
+  color: var(--cream);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+.bot-mic svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.bot-mic.is-on {
+  background: var(--gold);
+  color: #1a1408;
+  border-color: var(--gold);
+}
 .bot-panel .console__form .btn {
   height: 40px;
   margin: 0;
