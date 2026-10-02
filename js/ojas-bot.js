@@ -7,13 +7,14 @@
   var N8N_BOT = "https://overfunctioning-undefensibly-johnette.ngrok-free.dev/webhook/04e2adde-8681-46f5-8fe4-d736aac72dae/chat";
   var WA = "WhatsApp +55 41 9128-3609";
   var STORE = "ojas-lab-bot";
+  var VISIT = "ojas-lab-visitante";
   var historico = [];
   var sessao = "";
   var ocupado = false;
   var mensagens = [];
+  var visitante = {};
   var IDLE = 15 * 60 * 1000;
   var lastAt = Date.now();
-  var ENCERRADO = "Encerramos esta conversa por inatividade. Se tiver outra dúvida, estou à disposição.";
 
   function lerStore() {
     try { return JSON.parse(localStorage.getItem(STORE) || "null"); }
@@ -26,7 +27,8 @@
         historico: historico.slice(-20),
         mensagens: mensagens.slice(-40),
         lastAt: lastAt,
-        aberto: !!(document.getElementById("botPanel") && document.getElementById("botPanel").classList.contains("is-open"))
+        aberto: !!(document.getElementById("botPanel") && document.getElementById("botPanel").classList.contains("is-open")),
+        visitante: visitante
       }));
     } catch (e) {}
   }
@@ -115,7 +117,10 @@
     var corpo = {
       action: "sendMessage",
       chatInput: mensagem,
-      sessionId: sessao
+      sessionId: sessao,
+      nome: visitante.nome || "",
+      email: visitante.email || "",
+      whatsapp: visitante.whatsapp || ""
     };
     var ctrl = new AbortController();
     var timer = setTimeout(function () { ctrl.abort(); }, 45000);
@@ -156,12 +161,23 @@
     thread.innerHTML = "";
     mensagens = [];
   }
-  function encerrarPorInatividade() {
+  function temSessao() {
+    return !!(visitante.nome && visitante.email);
+  }
+  var gate = document.getElementById("chatGateForm");
+  function mostrarGate(on) {
+    if (!panel) return;
+    if (gate) gate.hidden = !on;
+    panel.classList.toggle("is-gate", on);
+  }
+  function encerrarSessao() {
+    visitante = {};
     limparFio();
-    novaSessao();
-    add(ENCERRADO, "bot");
-    lastAt = Date.now();
-    gravarStore();
+    historico = [];
+    sessao = "";
+    try { localStorage.removeItem(STORE); localStorage.removeItem(VISIT); } catch (e) {}
+    mostrarGate(true);
+    if (gate) gate.reset();
   }
   function marcarUso() {
     lastAt = Date.now();
@@ -170,31 +186,46 @@
 
   var salvo = lerStore();
   var velho = salvo && salvo.lastAt && (Date.now() - Number(salvo.lastAt) > IDLE);
-  if (velho) {
-    novaSessao();
-    add(ENCERRADO, "bot");
-  } else if (salvo && salvo.mensagens && salvo.mensagens.length) {
+  if (velho || !salvo || !salvo.visitante || !salvo.visitante.nome || !salvo.visitante.email) {
+    encerrarSessao();
+  } else {
+    visitante = salvo.visitante;
     sessao = salvo.sessao || ("site-" + Math.random().toString(36).slice(2, 10));
     historico = salvo.historico || [];
     lastAt = Number(salvo.lastAt) || Date.now();
-    salvo.mensagens.forEach(function (m) { add(m.text, m.who, true); });
-    mensagens = salvo.mensagens.slice();
-  } else {
-    novaSessao();
-    add("Olá. Sou o Ôjas Bot. Posso esclarecer os planos da casa.", "bot");
+    mostrarGate(false);
+    (salvo.mensagens || []).forEach(function (m) { add(m.text, m.who, true); });
+    mensagens = (salvo.mensagens || []).slice();
+    if (!mensagens.length) add("Olá, " + visitante.nome.split(" ")[0] + ". Sou o Ôjas Bot. Posso esclarecer os planos da casa.", "bot");
   }
-  if (salvo && salvo.aberto && !velho) setBotOpen(true);
+  if (salvo && salvo.aberto && temSessao()) setBotOpen(true);
   setInterval(function () {
-    if (Date.now() - lastAt >= IDLE && mensagens.length) {
-      var soAviso = mensagens.length === 1 && mensagens[0].text === ENCERRADO;
-      if (!soAviso) encerrarPorInatividade();
-    }
+    if (temSessao() && Date.now() - lastAt >= IDLE) encerrarSessao();
   }, 30000);
   document.querySelectorAll("[data-open-bot]").forEach(function (el) {
     el.addEventListener("click", function () {
+      if (!temSessao()) mostrarGate(true);
       setBotOpen(!(panel && panel.classList.contains("is-open")));
     });
   });
+  document.querySelectorAll("[data-end-bot]").forEach(function (el) {
+    el.addEventListener("click", encerrarSessao);
+  });
+  if (gate) {
+    gate.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = {
+        nome: (gate.nome.value || "").trim(),
+        email: (gate.email.value || "").trim()
+      };
+      if (!v.nome || !v.email) return;
+      visitante = v;
+      novaSessao();
+      mostrarGate(false);
+      add("Olá, " + v.nome.split(" ")[0] + ". Sou o Ôjas Bot. Posso esclarecer os planos da casa.", "bot");
+      gravarStore();
+    });
+  }
   document.querySelectorAll("[data-close-bot]").forEach(function (el) {
     el.addEventListener("click", function () {
       setBotOpen(false);
