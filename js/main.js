@@ -72,14 +72,6 @@
     });
   });
 
-  document.querySelectorAll(".nav__contato").forEach(function (el) {
-    el.addEventListener("click", function (e) {
-      e.preventDefault();
-      if (contatoForm) contatoForm.reset();
-      openModal(contatoModal);
-    });
-  });
-
   document.querySelectorAll("[data-close]").forEach(function (el) {
     el.addEventListener("click", function () {
       var which = el.getAttribute("data-close");
